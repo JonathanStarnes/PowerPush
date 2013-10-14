@@ -32,7 +32,6 @@ function Push-Message(
         $payload += "&timestamp=$([System.Web.HttpUtility]::UrlEncode($timestamp))"
    }
    
-   Write-Host($payload)
    $payloadBytes = [System.Text.Encoding]::Ascii.GetBytes($payload)
    $client = New-Object System.Net.WebClient
    $result = $client.UploadData("https://api.pushover.net/1/messages.json",$payloadBytes)

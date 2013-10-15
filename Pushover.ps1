@@ -10,6 +10,8 @@ function Push-Message(
     $timestamp = ''
 ){
 
+   Add-Type -AssemblyName System.Web
+
    $payload = "token=$token&user=$user&message=$([System.Web.HttpUtility]::UrlEncode($message))&priority=$priority"
   
    if(![system.string]::IsNullOrEmpty($device)){
@@ -35,4 +37,6 @@ function Push-Message(
    $payloadBytes = [System.Text.Encoding]::Ascii.GetBytes($payload)
    $client = New-Object System.Net.WebClient
    $result = $client.UploadData("https://api.pushover.net/1/messages.json",$payloadBytes)
+   
+   return [System.Text.Encoding]::Ascii.GetString($result)
 }
